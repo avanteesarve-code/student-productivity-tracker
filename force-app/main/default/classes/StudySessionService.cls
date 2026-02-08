@@ -11,14 +11,19 @@ public with sharing class StudySessionService {
 
         if (studyDates.isEmpty()) return;
 
-        List<Study_Session__c> existingSessions = [
-            SELECT Id, Study_Date__c
+        // Query existing sessions
+        Set<Date> existingDates = new Set<Date>();
+        for (Study_Session__c existing : [
+            SELECT Study_Date__c
             FROM Study_Session__c
             WHERE Study_Date__c IN :studyDates
-        ];
+        ]) {
+            existingDates.add(existing.Study_Date__c);
+        }
 
-        if (!existingSessions.isEmpty()) {
-            for (Study_Session__c ss : newSessions) {
+        // Add error only to duplicates
+        for (Study_Session__c ss : newSessions) {
+            if (existingDates.contains(ss.Study_Date__c)) {
                 ss.addError('A study session already exists for this date.');
             }
         }
