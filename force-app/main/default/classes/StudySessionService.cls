@@ -1,3 +1,7 @@
+// NOTE: Current rule prevents more than one study session per day.
+// This logic can be extended to allow multiple subjects per day if business rules change.
+
+
 public with sharing class StudySessionService {
 
     public static void preventDuplicateSessions(List<Study_Session__c> newSessions) {
