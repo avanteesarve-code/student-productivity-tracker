@@ -1,18 +1,98 @@
-# Salesforce DX Project: Next Steps
+## Student Productivity Tracker (Salesforce)
+📌 Project Overview
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+The Student Productivity Tracker is a Salesforce-based application that helps students record and manage their daily study sessions.
+This project demonstrates practical Salesforce development, including custom objects, validation rules, Apex triggers, bulk-safe logic, and automated testing — all tracked using GitHub.
 
-## How Do You Plan to Deploy Your Changes?
+The goal of this project is to showcase real-world Salesforce DX development practices, not just theoretical learning.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+📝 Problem Statement
 
-## Configure Your Salesforce DX Project
+Students often lack a structured way to track:
+-What subjects they study
+-On which dates
+-For how long
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+This application provides a simple yet scalable solution to log study sessions while enforcing meaningful business rules.
 
-## Read All About It
+⚙️ Tech Stack
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Platform: Salesforce (Developer Edition)
+Language: Apex
+IDE: Visual Studio Code
+CLI: Salesforce CLI (SF CLI)
+Extensions: Salesforce Extension Pack
+Version Control: Git & GitHub
+Project Format: Salesforce DX (SFDX)
+
+## Features Implemented
+
+1. Custom Object – Study Session:
+A custom Salesforce object to store individual study sessions.
+Fields:
+Study_Date__c : Date of study
+Subject__c : Subject studied
+Duration_Hours__c : Number of hours studied
+
+2. Validation Rule:
+Ensures study duration values are valid
+Prevents incorrect data entry at the UI level
+
+3. Apex Trigger with Service Class Pattern:
+Trigger executes before insert
+Business logic is handled in a separate service class
+Follows the thin trigger, fat service best practice
+
+Business Rule Implemented:
+A student can log multiple subjects on the same date,
+but cannot log the same subject more than once for a given date.
+
+4. Bulk-Safe Apex Logic:
+-Handles single and bulk record inserts
+-Uses Set collections for efficiency
+-Executes a single SOQL query outside loops
+-Fully compliant with Salesforce governor limits
+
+5. Apex Test Class:
+Covers both positive and negative scenarios
+Validates trigger behavior
+Ensures deployment readiness (75%+ test coverage)
+
+## Project Structure
+force-app/
+ └── main/
+     └── default/
+         ├── classes/
+         │   ├── StudySessionService.cls
+         │   ├── StudySessionServiceTest.cls
+         │   └── *.cls-meta.xml
+         ├── triggers/
+         │   ├── StudySessionTrigger.trigger
+         │   └── *.trigger-meta.xml
+         └── objects/
+             └── Study_Session__c/
+
+## Development Workflow
+1. Created metadata (Object, Fields, Validation Rules) in Salesforce Org
+2. Retrieved metadata into VS Code using Salesforce CLI
+3. Implemented Apex logic using service-class architecture
+4. Deployed changes to Salesforce Org
+5. Verified functionality via UI testing and Apex tests
+6. Committed changes daily to GitHub to track progress
+
+## Testing & Validation
+Manual testing through Salesforce UI
+Automated Apex testing using:
+
+sf apex run test --test-level RunLocalTests
+
+Bulk scenarios tested to ensure scalability and correctness
+
+## Author
+Avantee Sarve
+Computer Science and Business Systems Student
+Aspiring Salesforce Developer
+
+🔗 GitHub: [avanteesarve-code](https://github.com/avanteesarve-code)
+🔗 [Student Productivity Tracker Repository](https://github.com/avanteesarve-code/student-productivity-tracker)
+
