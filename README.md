@@ -2,16 +2,16 @@
 📌 Project Overview
 
 The Student Productivity Tracker is a Salesforce-based application that helps students record and manage their daily study sessions.
-This project demonstrates practical Salesforce development, including custom objects, validation rules, Apex triggers, bulk-safe logic, and automated testing — all tracked using GitHub.
+This project demonstrates practical Salesforce development, including custom objects, validation rules, Apex triggers, bulk-safe logic, and automated testing - all tracked using GitHub.
 
 The goal of this project is to showcase real-world Salesforce DX development practices, not just theoretical learning.
 
 📝 Problem Statement
 
-Students often lack a structured way to track:
--What subjects they study
--On which dates
--For how long
+Students often lack a structured way to track:<br>
+-What subjects they study<br>
+-On which dates<br>
+-For how long<br>
 
 This application provides a simple yet scalable solution to log study sessions while enforcing meaningful business rules.
 
