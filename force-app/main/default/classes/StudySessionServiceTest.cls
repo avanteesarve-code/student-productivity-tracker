@@ -64,4 +64,25 @@ public class StudySessionServiceTest {
         }
         Test.stopTest();
     }
+    @IsTest
+static void testMultipleSubjectsSameDayAllowed() {
+
+    insert new Study_Session__c(
+        Study_Date__c = Date.today(),
+        Duration_Hours__c = 2,
+        Subject__c = 'Math'
+    );
+
+    Study_Session__c second = new Study_Session__c(
+        Study_Date__c = Date.today(),
+        Duration_Hours__c = 3,
+        Subject__c = 'Physics'
+    );
+
+    Test.startTest();
+    insert second; // should succeed
+    Test.stopTest();
+
+    System.assertNotEquals(null, second.Id);
+}
 }
