@@ -89,9 +89,9 @@ sf apex run test --test-level RunLocalTests
 Bulk scenarios tested to ensure scalability and correctness
 
 ## Author
-Avantee Sarve
-Computer Science and Business Systems Student
-Aspiring Salesforce Developer
+Avantee Sarve<br>
+Computer Science and Business Systems Student<br>
+Aspiring Salesforce Developer<br>
 
 🔗 GitHub: [avanteesarve-code](https://github.com/avanteesarve-code)
 🔗 [Student Productivity Tracker Repository](https://github.com/avanteesarve-code/student-productivity-tracker)
