@@ -17,82 +17,82 @@ This application provides a simple yet scalable solution to log study sessions w
 
 ⚙️ Tech Stack
 
-Platform: Salesforce (Developer Edition)
-Language: Apex
-IDE: Visual Studio Code
-CLI: Salesforce CLI (SF CLI)
-Extensions: Salesforce Extension Pack
-Version Control: Git & GitHub
-Project Format: Salesforce DX (SFDX)
+Platform: Salesforce (Developer Edition)<br>
+Language: Apex<br>
+IDE: Visual Studio Code<br>
+CLI: Salesforce CLI (SF CLI)<br>
+Extensions: Salesforce Extension Pack<br>
+Version Control: Git & GitHub<br>
+Project Format: Salesforce DX (SFDX)<br>
 
 ## Features Implemented
 
-1. Custom Object – Study Session:
-A custom Salesforce object to store individual study sessions.
-Fields:
-Study_Date__c : Date of study
-Subject__c : Subject studied
-Duration_Hours__c : Number of hours studied
+1. Custom Object – Study Session:<br>
+A custom Salesforce object to store individual study sessions.<br>
+Fields:<br>
+Study_Date__c : Date of study<br>
+Subject__c : Subject studied<br>
+Duration_Hours__c : Number of hours studied<br>
 
-2. Validation Rule:
-Ensures study duration values are valid
-Prevents incorrect data entry at the UI level
+2. Validation Rule:<br>
+Ensures study duration values are valid<br>
+Prevents incorrect data entry at the UI level<br>
 
-3. Apex Trigger with Service Class Pattern:
-Trigger executes before insert
-Business logic is handled in a separate service class
-Follows the thin trigger, fat service best practice
+3. Apex Trigger with Service Class Pattern:<br>
+Trigger executes before insert<br>
+Business logic is handled in a separate service class<br>
+Follows the thin trigger, fat service best practice<br>
 
-Business Rule Implemented:
-A student can log multiple subjects on the same date,
-but cannot log the same subject more than once for a given date.
+Business Rule Implemented:<br>
+A student can log multiple subjects on the same date,<br>
+but cannot log the same subject more than once for a given date.<br>
 
-4. Bulk-Safe Apex Logic:
--Handles single and bulk record inserts
--Uses Set collections for efficiency
--Executes a single SOQL query outside loops
--Fully compliant with Salesforce governor limits
+4. Bulk-Safe Apex Logic:<br>
+-Handles single and bulk record inserts<br>
+-Uses Set collections for efficiency<br>
+-Executes a single SOQL query outside loops<br>
+-Fully compliant with Salesforce governor limits<br>
 
-5. Apex Test Class:
-Covers both positive and negative scenarios
-Validates trigger behavior
-Ensures deployment readiness (75%+ test coverage)
+5. Apex Test Class:<br>
+Covers both positive and negative scenarios<br>
+Validates trigger behavior<br>
+Ensures deployment readiness (75%+ test coverage)<br>
 
 ## Project Structure
-force-app/
- └── main/
-     └── default/
-         ├── classes/
-         │   ├── StudySessionService.cls
-         │   ├── StudySessionServiceTest.cls
-         │   └── *.cls-meta.xml
-         ├── triggers/
-         │   ├── StudySessionTrigger.trigger
-         │   └── *.trigger-meta.xml
-         └── objects/
-             └── Study_Session__c/
+force-app/<br>
+ └── main/<br>
+     └── default/<br>
+         ├── classes/<br>
+         │   ├── StudySessionService.cls<br>
+         │   ├── StudySessionServiceTest.cls<br>
+         │   └── *.cls-meta.xml<br>
+         ├── triggers/<br>
+         │   ├── StudySessionTrigger.trigger<br>
+         │   └── *.trigger-meta.xml<br>
+         └── objects/<br>
+             └── Study_Session__c/<br>
 
 ## Development Workflow
-1. Created metadata (Object, Fields, Validation Rules) in Salesforce Org
-2. Retrieved metadata into VS Code using Salesforce CLI
-3. Implemented Apex logic using service-class architecture
-4. Deployed changes to Salesforce Org
-5. Verified functionality via UI testing and Apex tests
-6. Committed changes daily to GitHub to track progress
+1. Created metadata (Object, Fields, Validation Rules) in Salesforce Org<br>
+2. Retrieved metadata into VS Code using Salesforce CLI<br>
+3. Implemented Apex logic using service-class architecture<br>
+4. Deployed changes to Salesforce Org<br>
+5. Verified functionality via UI testing and Apex tests<br>
+6. Committed changes daily to GitHub to track progress<br>
 
 ## Testing & Validation
-Manual testing through Salesforce UI
-Automated Apex testing using:
+Manual testing through Salesforce UI<br>
+Automated Apex testing using:<br>
 
-sf apex run test --test-level RunLocalTests
+'''sf apex run test --test-level RunLocalTests'''<br>
 
-Bulk scenarios tested to ensure scalability and correctness
+Bulk scenarios tested to ensure scalability and correctness<br>
 
 ## Author
 Avantee Sarve<br>
 Computer Science and Business Systems Student<br>
 Aspiring Salesforce Developer<br>
 
-🔗 GitHub: [avanteesarve-code](https://github.com/avanteesarve-code)
+🔗 GitHub: [avanteesarve-code](https://github.com/avanteesarve-code)<br>
 🔗 [Student Productivity Tracker Repository](https://github.com/avanteesarve-code/student-productivity-tracker)
 
