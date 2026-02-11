@@ -1,5 +1,4 @@
-
-
+// 
 public with sharing class StudySessionService {
 
     public static void preventDuplicateSessions(List<Study_Session__c> newSessions) {
