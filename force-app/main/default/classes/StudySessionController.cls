@@ -8,4 +8,15 @@ public with sharing class StudySessionController {
             ORDER BY Study_Date__c DESC
         ];
     }
+    @AuraEnabled
+public static void createStudySession(Date studyDate, String subject, Decimal duration) {
+
+    Study_Session__c session = new Study_Session__c(
+        Study_Date__c = studyDate,
+        Subject__c = subject,
+        Duration_Hours__c = duration
+    );
+
+    insert session;
+}
 }
