@@ -19,4 +19,14 @@ public static void createStudySession(Date studyDate, String subject, Decimal du
 
     insert session;
 }
+    @AuraEnabled(cacheable=true)
+public static Decimal getTotalStudyHours() {
+
+    AggregateResult result = [
+        SELECT SUM(Duration_Hours__c) totalHours
+        FROM Study_Session__c
+    ];
+
+    return (Decimal) result.get('totalHours');
+}
 }

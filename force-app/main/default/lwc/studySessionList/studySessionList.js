@@ -3,6 +3,7 @@ import getStudySessions from '@salesforce/apex/StudySessionController.getStudySe
 import createStudySession from '@salesforce/apex/StudySessionController.createStudySession';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import getTotalStudyHours from '@salesforce/apex/StudySessionController.getTotalStudyHours';
 
 export default class StudySessionList extends LightningElement {
 
@@ -63,4 +64,12 @@ export default class StudySessionList extends LightningElement {
             })
         );
     }
+    @wire(getTotalStudyHours)
+    wiredTotalHours({ data, error }) {
+        if (data) {
+            this.totalHours = data;
+        }    else if (error) {
+            this.showToast('Error', error.body.message, 'error');
+        }
+}
 }
