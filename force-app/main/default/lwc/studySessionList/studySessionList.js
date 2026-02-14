@@ -15,18 +15,23 @@ export default class StudySessionList extends LightningElement {
     wiredResult;
 
     columns = [
-        { label: 'Date', fieldName: 'Study_Date__c', type: 'date' },
+        { label: 'Date', fieldName: 'Study_Date__c', type: 'date-local' },
         { label: 'Subject', fieldName: 'Subject__c', type: 'text' },
         { label: 'Duration (Hours)', fieldName: 'Duration_Hours__c', type: 'number' }
     ];
 
     @wire(getStudySessions)
-    wiredSessions(result) {
-        this.wiredResult = result;
-        if (result.data) {
-            this.sessions = result.data;
-        }
+wiredSessions(value) {
+    this.wiredResult = value;
+    const { data, error } = value;
+
+    if (data) {
+        this.sessions = data;
+    } else if (error) {
+        console.error(error);
     }
+}
+
 
     handleDateChange(event) {
         this.studyDate = event.target.value;
@@ -40,20 +45,37 @@ export default class StudySessionList extends LightningElement {
         this.duration = event.target.value;
     }
 
-    handleSave() {
-        createStudySession({
+    async handleSave() {
+
+    this.isLoading = true;
+
+    try {
+
+        await createStudySession({
             studyDate: this.studyDate,
             subject: this.subject,
             duration: this.duration
-        })
-        .then(() => {
-            this.showToast('Success', 'Study Session Created', 'success');
-            return refreshApex(this.wiredResult);
-        })
-        .catch(error => {
-            this.showToast('Error', error.body.message, 'error');
         });
+
+        this.showToast('Success', 'Study Session Created', 'success');
+
+        this.studyDate = null;
+        this.subject = null;
+        this.duration = null;
+
+        if (this.wiredResult) {
+            window.location.reload();
+        }
+
+    } catch (error) {
+        this.showToast('Error', error?.body?.message || 'Unknown error', 'error');
     }
+
+    this.isLoading = false;
+}
+
+
+
 
     showToast(title, message, variant) {
         this.dispatchEvent(

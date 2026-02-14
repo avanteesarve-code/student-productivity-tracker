@@ -1,6 +1,7 @@
 <template>
     <lightning-card title="Study Sessions">
 
+
         <div class="slds-p-around_medium">
             <lightning-input
                 type="date"
@@ -21,10 +22,12 @@
             </lightning-input>
 
             <lightning-button
-                label="Save"
-                variant="brand"
-                onclick={handleSave}>
-            </lightning-button>
+    label="Save"
+    variant="brand"
+    onclick={handleSave}
+    disabled={isLoading}>
+</lightning-button>            
+
         </div>
         <div class="slds-p-around_medium slds-text-heading_medium">
     Total Study Hours: {totalHours}
