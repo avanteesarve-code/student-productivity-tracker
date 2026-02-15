@@ -1,9 +1,10 @@
 import { LightningElement, wire } from 'lwc';
 import getStudySessions from '@salesforce/apex/StudySessionController.getStudySessions';
 import createStudySession from '@salesforce/apex/StudySessionController.createStudySession';
+import getTotalStudyHours from '@salesforce/apex/StudySessionController.getTotalStudyHours';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
-import getTotalStudyHours from '@salesforce/apex/StudySessionController.getTotalStudyHours';
+import { deleteRecord } from 'lightning/uiRecordApi';
 
 export default class StudySessionList extends LightningElement {
 
@@ -13,26 +14,47 @@ export default class StudySessionList extends LightningElement {
 
     sessions;
     wiredResult;
+    totalHours;
+    isLoading = false;
 
     columns = [
         { label: 'Date', fieldName: 'Study_Date__c', type: 'date-local' },
         { label: 'Subject', fieldName: 'Subject__c', type: 'text' },
-        { label: 'Duration (Hours)', fieldName: 'Duration_Hours__c', type: 'number' }
+        { label: 'Duration (Hours)', fieldName: 'Duration_Hours__c', type: 'number' },
+        {
+            type: 'action',
+            typeAttributes: {
+                rowActions: [
+                    { label: 'Delete', name: 'delete' }
+                ]
+            }
+        }
     ];
 
+ 
     @wire(getStudySessions)
-wiredSessions(value) {
-    this.wiredResult = value;
-    const { data, error } = value;
+    wiredSessions(value) {
+        this.wiredResult = value;
+        const { data, error } = value;
 
-    if (data) {
-        this.sessions = data;
-    } else if (error) {
-        console.error(error);
+        if (data) {
+            this.sessions = data;
+        } else if (error) {
+            console.error(error);
+        }
     }
-}
 
+  
+    @wire(getTotalStudyHours)
+    wiredTotalHours({ data, error }) {
+        if (data !== undefined) {
+            this.totalHours = data;
+        } else if (error) {
+            console.error(error);
+        }
+    }
 
+    
     handleDateChange(event) {
         this.studyDate = event.target.value;
     }
@@ -45,38 +67,67 @@ wiredSessions(value) {
         this.duration = event.target.value;
     }
 
+    
     async handleSave() {
 
-    this.isLoading = true;
+        this.isLoading = true;
 
-    try {
+        try {
 
-        await createStudySession({
-            studyDate: this.studyDate,
-            subject: this.subject,
-            duration: this.duration
-        });
+            await createStudySession({
+                studyDate: this.studyDate,
+                subject: this.subject,
+                duration: this.duration
+            });
 
-        this.showToast('Success', 'Study Session Created', 'success');
+            this.showToast('Success', 'Study Session Created', 'success');
 
-        this.studyDate = null;
-        this.subject = null;
-        this.duration = null;
+            
+            this.studyDate = null;
+            this.subject = null;
+            this.duration = null;
 
-        if (this.wiredResult) {
-            window.location.reload();
+            
+            if (this.wiredResult) {
+                await refreshApex(this.wiredResult);
+            }
+
+        } catch (error) {
+            this.showToast('Error', error?.body?.message || 'Unknown error', 'error');
         }
 
-    } catch (error) {
-        this.showToast('Error', error?.body?.message || 'Unknown error', 'error');
+        this.isLoading = false;
     }
 
-    this.isLoading = false;
-}
+   
+    async handleRowAction(event) {
 
+        const actionName = event.detail.action.name;
+        const row = event.detail.row;
 
+        if (actionName === 'delete') {
 
+            this.isLoading = true;
 
+            try {
+
+                await deleteRecord(row.Id);
+
+                this.showToast('Success', 'Study Session Deleted', 'success');
+
+                if (this.wiredResult) {
+                    await refreshApex(this.wiredResult);
+                }
+
+            } catch (error) {
+                this.showToast('Error', error?.body?.message || 'Delete failed', 'error');
+            }
+
+            this.isLoading = false;
+        }
+    }
+
+   
     showToast(title, message, variant) {
         this.dispatchEvent(
             new ShowToastEvent({
@@ -86,12 +137,4 @@ wiredSessions(value) {
             })
         );
     }
-    @wire(getTotalStudyHours)
-    wiredTotalHours({ data, error }) {
-        if (data) {
-            this.totalHours = data;
-        }    else if (error) {
-            this.showToast('Error', error.body.message, 'error');
-        }
-}
 }

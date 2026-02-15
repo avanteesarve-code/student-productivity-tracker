@@ -36,7 +36,8 @@
         <lightning-datatable
             key-field="Id"
             data={sessions}
-            columns={columns}>
+            columns={columns}
+            onrowaction={handleRowAction}>
         </lightning-datatable>
 
     </lightning-card>
