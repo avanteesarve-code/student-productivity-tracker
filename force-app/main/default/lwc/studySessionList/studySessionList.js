@@ -5,6 +5,7 @@ import getTotalStudyHours from '@salesforce/apex/StudySessionController.getTotal
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
 import { deleteRecord } from 'lightning/uiRecordApi';
+import {LightningConfirm} from 'lightning/confirm';
 
 export default class StudySessionList extends LightningElement {
 
@@ -102,30 +103,40 @@ export default class StudySessionList extends LightningElement {
    
     async handleRowAction(event) {
 
-        const actionName = event.detail.action.name;
-        const row = event.detail.row;
+    const actionName = event.detail.action.name;
+    const row = event.detail.row;
 
-        if (actionName === 'delete') {
+    if (actionName === 'delete') {
 
-            this.isLoading = true;
+        const confirmed = await LightningConfirm.open({
+            message: 'Are you sure you want to delete this Study Session?',
+            variant: 'header',
+            label: 'Confirm Delete'
+        });
 
-            try {
+        if (!confirmed) {
+            return;
+        }
 
-                await deleteRecord(row.Id);
+        this.isLoading = true;
 
-                this.showToast('Success', 'Study Session Deleted', 'success');
+        try {
 
-                if (this.wiredResult) {
-                    await refreshApex(this.wiredResult);
-                }
+            await deleteRecord(row.Id);
 
-            } catch (error) {
-                this.showToast('Error', error?.body?.message || 'Delete failed', 'error');
+            this.showToast('Success', 'Study Session Deleted', 'success');
+
+            if (this.wiredResult) {
+                await refreshApex(this.wiredResult);
             }
 
-            this.isLoading = false;
+        } catch (error) {
+            this.showToast('Error', error?.body?.message || 'Delete failed', 'error');
         }
+
+        this.isLoading = false;
     }
+}
 
    
     showToast(title, message, variant) {
