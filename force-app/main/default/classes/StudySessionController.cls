@@ -36,4 +36,16 @@ public static Decimal getTotalStudyHours() {
 
     return (Decimal) result.get('totalHours');
 }
-}
+   @AuraEnabled(cacheable=true)
+public static Map<String, Decimal> getStudyHoursBySubject() {
+    Map<String, Decimal> studyHoursBySubject = new Map<String, Decimal>();
+    
+    for (AggregateResult result : [
+        SELECT Subject__c, SUM(Duration_Hours__c) totalHours
+        FROM Study_Session__c
+        GROUP BY Subject__c
+    ]) {
+        studyHoursBySubject.put((String) result.get('Subject__c'), (Decimal) result.get('totalHours'));
+    }
+    return studyHoursBySubject;
+}}
