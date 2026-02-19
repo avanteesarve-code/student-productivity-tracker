@@ -24,10 +24,10 @@ export default class StudySessionChart extends LightningElement {
             return;
         }
 
-        this.chartJsInitialized = true;
-
+        
         loadScript(this, ChartJS)
             .then(() => {
+                this.chartJsInitialized = true;
                 if (this.chartData) {
                     this.renderChart();
                 }
@@ -57,13 +57,30 @@ export default class StudySessionChart extends LightningElement {
     }
 
     this.chart = new window.Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Total Study Hours',
-                data: values
-            }]
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Total Study Hours',
+            data: values,
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
         }
-    });
+    }
+});
 }}
