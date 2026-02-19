@@ -105,6 +105,7 @@ export default class StudySessionList extends NavigationMixin(LightningElement) 
             
             if (this.wiredResult) {
                 await refreshApex(this.wiredResult);
+                this.dispatchEvent(new CustomEvent('refreshchart'));
             }
 
         } catch (error) {
@@ -154,7 +155,7 @@ export default class StudySessionList extends NavigationMixin(LightningElement) 
             this.showToast('Success', 'Study Session Deleted', 'success');
 
             await refreshApex(this.wiredResult);
-
+            this.dispatchEvent(new CustomEvent('refreshchart'));
         } catch (error) {
             this.showToast('Error', error?.body?.message || 'Delete failed', 'error');
         }

@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Student Productivity Dashboard">
+
+        <c-study-session-list 
+        onrefreshchart={handleRefreshChart}>
+        </c-study-session-list>
+        <c-study-session-chart 
+        refresh-trigger={refreshTrigger}>
+    </c-study-session-chart>
+
+    </lightning-card>
+</template>
