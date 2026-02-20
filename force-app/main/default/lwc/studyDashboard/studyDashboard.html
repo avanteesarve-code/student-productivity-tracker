@@ -1,12 +1,40 @@
 <template>
-    <lightning-card title="Student Productivity Dashboard">
 
-        <c-study-session-list 
+    <!-- Date Filters -->
+    <lightning-layout multiple-rows>
+
+        <lightning-layout-item size="6">
+            <lightning-input
+                type="date"
+                label="Start Date"
+                value={startDate}
+                onchange={handleStartDateChange}>
+            </lightning-input>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="6">
+            <lightning-input
+                type="date"
+                label="End Date"
+                value={endDate}
+                onchange={handleEndDateChange}>
+            </lightning-input>
+        </lightning-layout-item>
+
+    </lightning-layout>
+
+    <!-- Study List -->
+    <c-study-session-list
+        start-date={startDate}
+        end-date={endDate}
         onrefreshchart={handleRefreshChart}>
-        </c-study-session-list>
-        <c-study-session-chart 
+    </c-study-session-list>
+
+    <!-- Chart -->
+    <c-study-session-chart
+        start-date={startDate}
+        end-date={endDate}
         refresh-trigger={refreshTrigger}>
     </c-study-session-chart>
 
-    </lightning-card>
 </template>

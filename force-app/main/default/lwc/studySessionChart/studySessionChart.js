@@ -31,7 +31,13 @@ async refreshChartData() {
 }
    wiredChartResult;
 
-@wire(getStudyHoursBySubject)
+   @api startDate;
+    @api endDate;
+    
+@wire(getStudyHoursBySubject,{
+  startDate : '$startDate',
+    endDate : '$endDate'})
+
 wiredData(value) {
     this.wiredChartResult = value;
 

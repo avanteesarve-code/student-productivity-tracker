@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire , api} from 'lwc';
 import getStudySessions from '@salesforce/apex/StudySessionController.getStudySessions';
 import createStudySession from '@salesforce/apex/StudySessionController.createStudySession';
 import getTotalStudyHours from '@salesforce/apex/StudySessionController.getTotalStudyHours';
@@ -46,8 +46,13 @@ export default class StudySessionList extends NavigationMixin(LightningElement) 
         }
     ];
 
- 
-    @wire(getStudySessions)
+ @api startDate;
+    @api endDate;
+    
+    @wire(getStudySessions, {
+        startDate: '$startDate',
+        endDate: '$endDate'
+    })
     wiredSessions(value) {
         this.wiredResult = value;
         const { data, error } = value;
